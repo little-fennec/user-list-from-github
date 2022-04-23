@@ -24,7 +24,7 @@ const Pagination = ({usersPerPage, totalUsers, currentPage, changePage}) => {
                         }
                         return(
 
-                                <a key={number} href="!#" className={clazz} onClick={() => changePage(number)}>{number}</a>
+                                <span key={number} className={clazz} onClick={() => changePage(number)}>{number}</span>
 
                         )
                 })
