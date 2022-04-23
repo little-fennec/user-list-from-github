@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './pagination.module.scss';
-import {changePage} from "../../actions/index";
 
 const Pagination = ({usersPerPage, totalUsers, currentPage, changePage}) => {
     const pageNumbers = [];

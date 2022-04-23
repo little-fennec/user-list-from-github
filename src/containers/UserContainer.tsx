@@ -1,51 +1,40 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Spinner from '../components/spinner/index';
 import UserList from '../components/user-list/index';
-import Pagination from '../components/pagination/index';
-import {usersRequested, usersLoaded, usersError} from "../actions/index";
+import {useDispatch} from "react-redux";
+
+import {changeModalVisibility, fetchUsers} from "../toolkitRedux/toolkitSlice";
 import { connect } from 'react-redux';
 
+const UserContainer = ({users, loading, error, usersError, changeModalVisibility}) => {
 
-const UserContainer = ({users, loading, error, usersRequested, usersLoaded, usersError}) => {
-
-    const getUsers = async () => {
-
-        const res = await fetch('https://api.github.com/users');
-
-        if (!res.ok) {
-            throw new Error(`Could not fetch 'https://api.github.com/users',` +
-                ` received ${res.status}`);
-        }
-
-        return await res.json();
-    };
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        usersRequested();
-        getUsers().then(res => {
-            usersLoaded(res);
-        } )
-            .catch((err) => usersError(err));
-    }, []);
+        dispatch(fetchUsers());
+    }, [dispatch]);
 
     if (loading) {
         return <Spinner />
     }
 
     return (
-            <UserList users={users}/>
+        <>
+            <UserList users={users} changeModalVisibility = {changeModalVisibility}/>
+
+        </>
     )
 };
 
 const mapStateToProps = store => {
     return {
-        users: store.visibleUsers,
+        loading: store.toolkit.loading,
+        users: store.toolkit.visibleUsers,
+        modalVisibility: store.toolkit.modalVisibility,
     }
 };
 const mapDispatchToProps = {
-    usersRequested,
-    usersLoaded,
-    usersError
+    changeModalVisibility
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserContainer)

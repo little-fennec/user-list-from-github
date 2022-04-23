@@ -1,7 +1,7 @@
 @import "../../variables";
 
 .container {
-  width: 500px;
+  max-width: 500px;
   margin: 70px auto;
   .wrapper {
     padding: 10px;
@@ -12,6 +12,7 @@
     height: 50px;
     position: relative;
     border: $item-border;
+    text-align: center;
     &:hover {
       cursor: pointer;
       border: $box-shadow_hover;
